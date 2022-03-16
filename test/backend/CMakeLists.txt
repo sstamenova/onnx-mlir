@@ -92,7 +92,7 @@ endif()
 # ONNX_HOME to avoid conflicts.
 add_custom_target(check-onnx-backend
   COMMAND
-    ONNX_HOME=${CMAKE_CURRENT_BINARY_DIR}/cpp
+    ${CMAKE_COMMAND} -E env ONNX_HOME=${CMAKE_CURRENT_BINARY_DIR}/cpp
     ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
   DEPENDS
     ${FILE_GENERATE_DIR}/test.py
@@ -101,7 +101,7 @@ add_custom_target(check-onnx-backend
 
 add_custom_target(check-onnx-backend-dynamic
   COMMAND
-    TEST_DYNAMIC=true
+    ${CMAKE_COMMAND} -E env TEST_DYNAMIC=true
     ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
   DEPENDS
     ${FILE_GENERATE_DIR}/test.py
@@ -110,7 +110,7 @@ add_custom_target(check-onnx-backend-dynamic
 
 add_custom_target(check-onnx-backend-constant
   COMMAND
-    TEST_CONSTANT=true
+    ${CMAKE_COMMAND} -E env TEST_CONSTANT=true
     ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
   DEPENDS
     ${FILE_GENERATE_DIR}/test.py
@@ -119,7 +119,7 @@ add_custom_target(check-onnx-backend-constant
 
 add_custom_target(check-onnx-backend-signature
   COMMAND
-    TEST_SIGNATURE=true
+    ${CMAKE_COMMAND} -E env TEST_SIGNATURE=true
     ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
   DEPENDS
     ${FILE_GENERATE_DIR}/test.py
@@ -128,7 +128,7 @@ add_custom_target(check-onnx-backend-signature
 
 add_custom_target(check-onnx-backend-compilerlib
   COMMAND
-    TEST_COMPILERLIB=true ONNX_HOME=${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_COMMAND} -E env TEST_COMPILERLIB=true ONNX_HOME=${CMAKE_CURRENT_BINARY_DIR}
     ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
   DEPENDS
     ${FILE_GENERATE_DIR}/test.py
@@ -138,8 +138,8 @@ add_custom_target(check-onnx-backend-compilerlib
 add_custom_target(clean-onnx-backend
   COMMAND
     ${CMAKE_COMMAND} -E remove
-    ${CMAKE_CURRENT_BINARY_DIR}/*.onnx
-    ${CMAKE_CURRENT_BINARY_DIR}/*.so
+      ${CMAKE_CURRENT_BINARY_DIR}/*.onnx
+      ${CMAKE_CURRENT_BINARY_DIR}/*.so
   )
 
 add_dependencies(check-onnx-backend onnx-mlir)
@@ -158,8 +158,10 @@ if (ONNX_MLIR_ENABLE_JNI)
   message(STATUS "  JSONITER_JAR              : ${JSONITER_JAR}")
   add_custom_target(check-onnx-backend-jni
     COMMAND
-      ONNX_HOME=${CMAKE_CURRENT_BINARY_DIR}/jni
-       TEST_EMIT=jni JSONITER_JAR=${JSONITER_JAR}
+      ${CMAKE_COMMAND} -E env
+        ONNX_HOME=${CMAKE_CURRENT_BINARY_DIR}/jni
+        TEST_EMIT=jni
+        JSONITER_JAR=${JSONITER_JAR}
       ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
     DEPENDS
       ${FILE_GENERATE_DIR}/test.py
@@ -168,7 +170,7 @@ if (ONNX_MLIR_ENABLE_JNI)
 
   add_custom_target(check-onnx-backend-dynamic-jni
     COMMAND
-      TEST_DYNAMIC=true TEST_EMIT=jni JSONITER_JAR=${JSONITER_JAR}
+      ${CMAKE_COMMAND} -E env TEST_DYNAMIC=true TEST_EMIT=jni JSONITER_JAR=${JSONITER_JAR}
       ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
     DEPENDS
       ${FILE_GENERATE_DIR}/test.py
@@ -177,7 +179,7 @@ if (ONNX_MLIR_ENABLE_JNI)
 
   add_custom_target(check-onnx-backend-constant-jni
     COMMAND
-      TEST_CONSTANT=true TEST_EMIT=jni JSONITER_JAR=${JSONITER_JAR}
+      ${CMAKE_COMMAND} -E env TEST_CONSTANT=true TEST_EMIT=jni JSONITER_JAR=${JSONITER_JAR}
       ${BACKEND_TEST_COMMAND} ${BACKEND_TEST_ARGS} ${FILE_GENERATE_DIR}/test.py
     DEPENDS
       ${FILE_GENERATE_DIR}/test.py

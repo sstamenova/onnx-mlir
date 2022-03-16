@@ -18,6 +18,13 @@ To run the numerical ONNX-MLIR tests, use the following command:
 call cmake --build . --config Release --target check-onnx-numerical
 ```
 
+To run the backend ONNX-MLIR tests, use the following command:
+
+[same-as-file]: <> ({"ref": "utils/check-onnx-backend.cmd", "skip-ref": 1})
+```shell
+call cmake --build . --config Release --target check-onnx-backend
+```
+
 To run the doc ONNX-MLIR tests, use the following command after installing third_party ONNX shown below. Details to first install the third_party ONNX project are detailed [here](BuildONNX.md). Note that it is key to install the ONNX project's version listed in our third_party subdirectory, as ONNX-MLIR may be behind the latest version from the ONNX standard.
 
 [same-as-file]: <> ({"ref": "utils/check-docs.cmd", "skip-ref": 1})
